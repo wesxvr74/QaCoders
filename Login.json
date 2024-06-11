@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "18fc6b06-12d2-4e6e-a550-40931d187f65",
+		"name": "Login",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34150922"
+	},
+	"item": [
+		{
+			"name": "Login Sucess",
+			"item": [
+				{
+					"name": "Signup - Success",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName(){\r",
+									"\r",
+									"    let firstName = [\"Wes\", \"Diogo\", \"Debora\", \"Nair\", \"Joel\", \"Wallyson\"];\r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"FirstName\", firstName());\r",
+									"\r",
+									"function lastName(){\r",
+									"\r",
+									"    let lastName = [\"Silva\",  \"Xavier\", \"Cavalcanti\", \"Anunciação\", \"Souza\", \"Oliveira\" , \"Fogaça\"];\r",
+									"    let randomItem = lastName[Math.floor(Math.random()* lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"function profiles(){\r",
+									"\r",
+									"    let profiles = [\"Financeiro\", \"RH\", \"Compras\", \"CEO\", \"QA\", \"DEV\" , \"ADMIN\"];\r",
+									"    let randomItem = profiles[Math.floor(Math.random()* lastName.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"profile\", profiles())\r",
+									"\r",
+									"pm.environment.set(\"lastName\", lastName());\r",
+									"\r",
+									"pm.environment.set(\"FullName\", pm.environment.get (\"FirstName\") + \" \" + pm.environment.get(\"lastName\"));\r",
+									"\r",
+									"function domain(){\r",
+									"\r",
+									"    let domain = [\"@gmail.com\", \"@outlook.com.br\", \"@delpim.com.br\", \"@hostinger.com.br\", \"@hotmail.com\"];\r",
+									"    let randomItem = domain[Math.floor(Math.random() * domain.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"domain\", domain());\r",
+									"\r",
+									"pm.environment.set(\"Mail\", pm.environment.get(\"FirstName\") + pm.variables.replaceIn('{{$guid}}') + pm.environment.get(\"domain\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is token exist\", function () {\r",
+									"    pm.expect(pm.response.json().token).to.exist;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is FullName true\", function () {\r",
+									"    let responseJSON = pm.response.json();\r",
+									"    pm.expect(pm.environment.get('FullName')).to.eql(responseJSON.user.fullName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is mail is true\", function () {\r",
+									"    let responseJSON = pm.response.json();\r",
+									"    pm.expect(pm.environment.get('Mail')).to.eql(responseJSON.user.mail);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is accessProfile is true\", function () {\r",
+									"    let responseJSON = pm.response.json();\r",
+									"    pm.expect(pm.environment.get('profile')).to.eql(responseJSON.user.accessProfile);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU4OGY0YTQ0MjE0NmYzYTFhMWE1YjgiLCJyZWdpc3RyYXRpb24iOiJRYUNvZGVycy0wMDAyMTY2MSIsImZ1bGxOYW1lIjoiRGVib3JhIFNvdXphIiwibWFpbCI6IkRlYm9yYTY2OTA0NTJjLTAzMjgtNDAwNC05MjlhLTQ3OWRiOGU0ODc0OEBkZWxwaW0uY29tLmJyIiwicGFzc3dvcmQiOiIkMmIkMTAkUGRwUkY1bC8uRlM1SFkvMDNoQ1d5T2VsSUpOaGNyeERsUGFXMGRzMVhXeHNzVFhkcXprcDIiLCJhY2Nlc3NQcm9maWxlIjoiRmluYW5jZWlybyIsImlkQ29tcGFueSI6IiIsInN0YXR1cyI6dHJ1ZSwiYXVkaXQiOlt7InJlZ2lzdHJhdGlvbkRhdGUiOiJUaHUgTWF5IDMwIDIwMjQgMTE6Mzg6MDIgR01ULTAzMDAgKEJyYXNpbGlhIFN0YW5kYXJkIFRpbWUpIiwiX2lkIjoiNjY1ODhmNGE0NDIxNDZmM2ExYTFhNWI5In1dLCJfX3YiOjAsImlhdCI6MTcxNzA3OTg4MiwiZXhwIjoxNzE3MTY2MjgyfQ.qwjpp6ke6Kb37sVL4Xf85t2OjxZNqUDjcfUeHOXYUZc",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"{{FullName}}\",\r\n    \"mail\": \"{{Mail}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"confirmPassword\": \"{{password}}\",\r\n    \"accessProfile\": \"{{profile}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/signup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Success",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is token exist\", function () {\r",
+									"    pm.expect(pm.response.json().token).to.exist;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is FullName true\", function () {\r",
+									"    let responseJSON = pm.response.json();\r",
+									"    pm.expect(pm.environment.get('FullName')).to.eql(responseJSON.user.fullName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is mail is true\", function () {\r",
+									"    let responseJSON = pm.response.json();\r",
+									"    pm.expect(pm.environment.get('Mail')).to.eql(responseJSON.user.mail);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check is accessProfile is true\", function () {\r",
+									"    let responseJSON = pm.response.json();\r",
+									"    pm.expect(pm.environment.get('profile')).to.eql(responseJSON.user.accessProfile);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU4OGY0YTQ0MjE0NmYzYTFhMWE1YjgiLCJyZWdpc3RyYXRpb24iOiJRYUNvZGVycy0wMDAyMTY2MSIsImZ1bGxOYW1lIjoiRGVib3JhIFNvdXphIiwibWFpbCI6IkRlYm9yYTY2OTA0NTJjLTAzMjgtNDAwNC05MjlhLTQ3OWRiOGU0ODc0OEBkZWxwaW0uY29tLmJyIiwicGFzc3dvcmQiOiIkMmIkMTAkUGRwUkY1bC8uRlM1SFkvMDNoQ1d5T2VsSUpOaGNyeERsUGFXMGRzMVhXeHNzVFhkcXprcDIiLCJhY2Nlc3NQcm9maWxlIjoiRmluYW5jZWlybyIsImlkQ29tcGFueSI6IiIsInN0YXR1cyI6dHJ1ZSwiYXVkaXQiOlt7InJlZ2lzdHJhdGlvbkRhdGUiOiJUaHUgTWF5IDMwIDIwMjQgMTE6Mzg6MDIgR01ULTAzMDAgKEJyYXNpbGlhIFN0YW5kYXJkIFRpbWUpIiwiX2lkIjoiNjY1ODhmNGE0NDIxNDZmM2ExYTFhNWI5In1dLCJfX3YiOjAsImlhdCI6MTcxNzA3OTg4MiwiZXhwIjoxNzE3MTY2MjgyfQ.qwjpp6ke6Kb37sVL4Xf85t2OjxZNqUDjcfUeHOXYUZc",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"{{Mail}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
